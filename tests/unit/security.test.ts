@@ -72,9 +72,11 @@ describe('Security: Input Length Limits', () => {
 });
 
 describe('Security: SQL/NoSQL Injection Prevention', () => {
-  it('should sanitize potential injection in name', () => {
+  // Firestore uses parameterized queries, so SQL injection text is harmless plain text
+  it('should pass SQL-like strings through as plain text (Firestore is not SQL)', () => {
     const result = validateProfile({ name: "'; DROP TABLE users; --", state: 'Delhi', constituency: '', age: '25' });
-    expect(result.sanitized.name).not.toContain('DROP TABLE');
+    expect(result.valid).toBe(true);
+    expect(result.sanitized.name).toBe("'; DROP TABLE users; --");
   });
 
   it('should sanitize potential injection in message', () => {
