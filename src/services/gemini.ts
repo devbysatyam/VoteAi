@@ -32,12 +32,35 @@ export async function sendChatMessage(message: string): Promise<string> {
     return cached.text;
   }
 
-  /* Tier 2: Try Gemini API directly on client side */
+  /* Tier 2: Try Backend API (Preferred) */
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message }),
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      const text = data.data?.reply || data.reply;
+      if (text) {
+        responseCache.set(cacheKey, { text, timestamp: Date.now() });
+        return text;
+      }
+    }
+  } catch (err) {
+    console.warn("Backend Chat failed, falling back to client-side SDK:", err);
+  }
+
+  /* Tier 3: Try Gemini API directly on client side (Fallback) */
   try {
     const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
     if (apiKey) {
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", systemInstruction: "You are an AI election assistant for Indian voters. Keep responses brief, polite, and neutral. Answer questions about voting processes, eligibility, and the Indian democratic system." });
+      const model = genAI.getGenerativeModel({ 
+        model: "gemini-flash-latest", 
+        systemInstruction: "You are an AI election assistant for Indian voters. Keep responses brief, polite, and neutral. Answer questions about voting processes, eligibility, and the Indian democratic system." 
+      });
       
       const result = await model.generateContent(message);
       const text = result.response.text();
@@ -47,7 +70,7 @@ export async function sendChatMessage(message: string): Promise<string> {
       }
     }
   } catch (err) {
-    console.error("Gemini API Error:", err);
+    console.error("Gemini Client API Error:", err);
   }
 
   /* Tier 4: Hardcoded fallback (never fail the user) */

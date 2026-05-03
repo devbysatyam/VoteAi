@@ -11,15 +11,24 @@ import { healthRouter } from './routes/health.js';
 import { rateLimiter } from './middleware/rateLimit.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8080;
 
 /* Security */
 app.use(helmet({ contentSecurityPolicy: false }));
-app.use(cors({ origin: process.env.CORS_ORIGIN || 'http://localhost:5173' }));
+app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
 
 /* Body parsing */
 app.use(express.json({ limit: '1mb' }));
+
+/* Serve static files from dist */
+app.use(express.static(path.join(__dirname, '../dist')));
 
 /* Rate limiting */
 app.use('/api/', rateLimiter);
@@ -28,6 +37,11 @@ app.use('/api/', rateLimiter);
 app.use('/api', healthRouter);
 app.use('/api', chatRouter);
 app.use('/api', quizRouter);
+
+/* Client-side routing catch-all */
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
+});
 
 /* Error handler */
 app.use(errorHandler);
