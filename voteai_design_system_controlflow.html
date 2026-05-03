@@ -1,0 +1,710 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.ds{padding:1.5rem 0;font-family:var(--font-sans)}
+.tab-bar{display:flex;gap:6px;margin-bottom:2rem;flex-wrap:wrap}
+.tab{padding:7px 16px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary);background:transparent;transition:all .15s}
+.tab.active{background:var(--color-text-primary);color:var(--color-background-primary);border-color:var(--color-text-primary)}
+.page{display:none}.page.active{display:block}
+.section{margin-bottom:2.5rem}
+.sec-label{font-size:11px;font-weight:500;letter-spacing:.06em;color:var(--color-text-tertiary);text-transform:uppercase;margin-bottom:10px}
+.sec-title{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:14px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.grid4{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:14px 16px}
+.card h4{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px}
+.card p{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+.card .sub{font-size:11px;color:var(--color-text-tertiary);margin-top:6px}
+/* COLOR SWATCHES */
+.swatch-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.swatch{width:36px;height:36px;border-radius:6px;border:0.5px solid transparent}
+.swatch-label{font-size:10px;color:var(--color-text-tertiary);margin-top:3px;text-align:center}
+/* TYPE SCALE */
+.type-row{padding:10px 0;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;align-items:baseline;gap:16px}
+.type-spec{font-size:11px;color:var(--color-text-tertiary);min-width:120px;flex-shrink:0}
+/* SPACING */
+.space-bar{height:8px;background:var(--color-background-info);border-radius:2px;margin-bottom:4px}
+/* SCREEN CARDS */
+.screen{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:12px;text-align:center}
+.screen-title{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+.screen-sub{font-size:10px;color:var(--color-text-tertiary);line-height:1.4}
+.screen-num{display:inline-block;width:18px;height:18px;border-radius:50%;background:var(--color-background-info);color:var(--color-text-info);font-size:10px;font-weight:500;line-height:18px;text-align:center;margin-bottom:6px}
+/* FLOW ARROWS */
+.flow-line{display:flex;align-items:center;gap:0;margin-bottom:12px;overflow-x:auto;padding-bottom:4px}
+.flow-node{flex:0 0 auto;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:8px;padding:8px 12px;font-size:11px;color:var(--color-text-primary);font-weight:500;white-space:nowrap}
+.flow-node.accent{background:var(--color-background-info);border-color:var(--color-border-info);color:var(--color-text-info)}
+.flow-node.warn{background:var(--color-background-warning);border-color:var(--color-border-warning);color:var(--color-text-warning)}
+.flow-node.ok{background:var(--color-background-success);border-color:var(--color-border-success);color:var(--color-text-success)}
+.flow-arr{flex:0 0 24px;text-align:center;color:var(--color-text-tertiary);font-size:13px}
+/* COMPONENT PREVIEWS */
+.comp-preview{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:16px;margin-bottom:10px}
+.comp-label{font-size:10px;color:var(--color-text-tertiary);margin-bottom:10px;font-weight:500;letter-spacing:.05em;text-transform:uppercase}
+/* MOCK BOTTOM NAV */
+.mock-nav{display:flex;justify-content:space-around;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:10px 8px;max-width:340px;margin:0 auto}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 10px;border-radius:8px}
+.nav-item.active{background:var(--color-background-info)}
+.nav-icon{font-size:16px}
+.nav-label{font-size:9px;font-weight:500;color:var(--color-text-tertiary)}
+.nav-item.active .nav-label{color:var(--color-text-info)}
+/* MOCK CARD */
+.mock-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px;max-width:320px}
+.mc-tag{display:inline-block;font-size:10px;font-weight:500;padding:2px 8px;border-radius:4px;background:var(--color-background-success);color:var(--color-text-success);margin-bottom:8px}
+.mc-title{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+.mc-sub{font-size:12px;color:var(--color-text-secondary);line-height:1.4;margin-bottom:10px}
+.mc-bar{height:4px;background:var(--color-border-tertiary);border-radius:2px;overflow:hidden;margin-bottom:6px}
+.mc-bar-fill{height:100%;background:var(--color-text-success);border-radius:2px;width:68%}
+.mc-footer{display:flex;justify-content:space-between;font-size:11px;color:var(--color-text-tertiary)}
+/* MOCK BUTTON */
+.mock-btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.mbtn{padding:9px 18px;border-radius:6px;font-size:12px;font-weight:500;border:none;cursor:pointer}
+.mbtn-primary{background:var(--color-text-primary);color:var(--color-background-primary)}
+.mbtn-secondary{background:transparent;border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary)}
+.mbtn-info{background:var(--color-background-info);color:var(--color-text-info);border:0.5px solid var(--color-border-info)}
+/* DECISION TREE */
+.dtree{padding:12px 0}
+.dnode{border:0.5px solid var(--color-border-secondary);border-radius:8px;padding:8px 12px;font-size:11px;font-weight:500;color:var(--color-text-primary);display:inline-block;margin:4px}
+.dnode.root{background:var(--color-text-primary);color:var(--color-background-primary)}
+.dnode.yes{background:var(--color-background-success);color:var(--color-text-success);border-color:var(--color-border-success)}
+.dnode.no{background:var(--color-background-danger);color:var(--color-text-danger);border-color:var(--color-border-danger)}
+.dnode.mid{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info)}
+.dtree-row{display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;margin:8px 0 8px 20px}
+.dtree-connector{font-size:11px;color:var(--color-text-tertiary);padding-top:10px}
+/* RESP GRID */
+.resp-tier{background:var(--color-background-secondary);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+.resp-tier h5{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+.resp-tier p{font-size:11px;color:var(--color-text-secondary);line-height:1.4}
+.divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:1.5rem 0}
+.pill{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500;margin:2px}
+.pill-orange{background:#FAEEDA;color:#633806}
+.pill-purple{background:#EEEDFE;color:#3C3489}
+.pill-teal{background:#E1F5EE;color:#085041}
+.pill-blue{background:#E6F1FB;color:#0C447C}
+.pill-red{background:#FCEBEB;color:#501313}
+.pill-green{background:#EAF3DE;color:#173404}
+.do-dont{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.do{background:var(--color-background-success);border:0.5px solid var(--color-border-success);border-radius:8px;padding:10px 12px}
+.dont{background:var(--color-background-danger);border:0.5px solid var(--color-border-danger);border-radius:8px;padding:10px 12px}
+.do h5,.dont h5{font-size:11px;font-weight:500;margin-bottom:5px}
+.do h5{color:var(--color-text-success)}
+.dont h5{color:var(--color-text-danger)}
+.do p,.dont p{font-size:11px;line-height:1.4;color:var(--color-text-secondary)}
+</style>
+
+<div class="ds">
+  <!-- TABS -->
+  <div class="tab-bar">
+    <button class="tab active" onclick="switchTab('design')">Design Language</button>
+    <button class="tab" onclick="switchTab('tokens')">Tokens & Colors</button>
+    <button class="tab" onclick="switchTab('components')">Components</button>
+    <button class="tab" onclick="switchTab('flow')">Control Flow</button>
+    <button class="tab" onclick="switchTab('screens')">Screen Map</button>
+    <button class="tab" onclick="switchTab('responsive')">Responsive</button>
+  </div>
+
+  <!-- PAGE 1: DESIGN LANGUAGE -->
+  <div id="page-design" class="page active">
+
+    <div class="section">
+      <div class="sec-label">Design Philosophy</div>
+      <div class="sec-title">The Design Language: Civic Bold</div>
+      <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:16px">
+        Not pure SaaS. Not government bland. The sweet spot is <strong style="font-weight:500;color:var(--color-text-primary)">Civic Bold</strong> — a design language that feels authoritative and trustworthy like a government document, but <em>moves</em> like a modern consumer app. Think Linear meets Aadhaar: sharp edges, high contrast, strong typographic hierarchy, with warm saffron/green/blue accent pulled from the Indian tricolor.
+      </p>
+      <div class="grid2">
+        <div class="card">
+          <h4>Sharp edges, not rounded pills</h4>
+          <p>Cards use 8px radius max. Buttons use 6px. No 24px pill-shaped everything. Sharp corners signal precision and authority — right for a civic product.</p>
+          <div class="sub">border-radius: 6px (buttons), 8px (cards), 12px (modals)</div>
+        </div>
+        <div class="card">
+          <h4>High-contrast text hierarchy</h4>
+          <p>3 levels of text: primary (near-black), secondary (60%), tertiary (40%). Never use more than 3 grays. Users shouldn't hunt for information.</p>
+          <div class="sub">Contrast ratio ≥ 4.5:1 for body, ≥ 3:1 for large text (WCAG AA)</div>
+        </div>
+        <div class="card">
+          <h4>Saffron + Deep Blue + Forest Green</h4>
+          <p>The accent palette is the Indian tricolor abstracted: Saffron for primary actions, Deep Navy for trust/headings, Forest Green for success/completion states.</p>
+          <div class="sub">Not garish patriotism — subtle, sophisticated use of the palette</div>
+        </div>
+        <div class="card">
+          <h4>Bento grid layout</h4>
+          <p>Home screen uses a bento-style card grid. Different card sizes for different information weights. Scannable at a glance. No wall of same-sized tiles.</p>
+          <div class="sub">Inspired by Apple iOS 17 widgets + Linear's dashboard</div>
+        </div>
+        <div class="card">
+          <h4>Thumb-first navigation</h4>
+          <p>All primary actions in bottom 40% of screen. Top bar is read-only context. Tab bar at bottom with 5 items. No hamburger menus.</p>
+          <div class="sub">75% of users use one thumb — Steven Hoober (2025)</div>
+        </div>
+        <div class="card">
+          <h4>Motion as communication</h4>
+          <p>Transitions under 300ms. Page slides in from right, back slides from left. Cards scale up from 0.96 on tap. No decorative spins.</p>
+          <div class="sub">CSS transitions only — no heavy animation libraries</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section">
+      <div class="sec-label">Typography</div>
+      <div class="sec-title">Type Scale</div>
+      <div>
+        <div class="type-row">
+          <div class="type-spec">Display / Hero<br><span style="font-size:10px">28px · weight 600</span></div>
+          <div style="font-size:28px;font-weight:600;color:var(--color-text-primary)">Vote Smart. Vote Right.</div>
+        </div>
+        <div class="type-row">
+          <div class="type-spec">Page title<br><span style="font-size:10px">22px · weight 500</span></div>
+          <div style="font-size:22px;font-weight:500;color:var(--color-text-primary)">My Voting Journey</div>
+        </div>
+        <div class="type-row">
+          <div class="type-spec">Section header<br><span style="font-size:10px">16px · weight 500</span></div>
+          <div style="font-size:16px;font-weight:500;color:var(--color-text-primary)">Know Your Candidates</div>
+        </div>
+        <div class="type-row">
+          <div class="type-spec">Card title<br><span style="font-size:10px">14px · weight 500</span></div>
+          <div style="font-size:14px;font-weight:500;color:var(--color-text-primary)">Booth opens at 7:00 AM</div>
+        </div>
+        <div class="type-row">
+          <div class="type-spec">Body / desc<br><span style="font-size:10px">13px · weight 400</span></div>
+          <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.5">Your nearest polling booth is 0.8 km away. Arrives in 11 minutes on foot.</div>
+        </div>
+        <div class="type-row">
+          <div class="type-spec">Caption / meta<br><span style="font-size:10px">11px · weight 400</span></div>
+          <div style="font-size:11px;color:var(--color-text-tertiary)">Constituency 47 · Varanasi North · Last updated 3 min ago</div>
+        </div>
+      </div>
+      <div style="margin-top:14px;padding:10px 14px;background:var(--color-background-secondary);border-radius:8px;">
+        <div style="font-size:11px;color:var(--color-text-secondary);line-height:1.6">
+          <strong style="font-weight:500;color:var(--color-text-primary)">Font:</strong> Inter (web) or system-ui on mobile. Hindi/regional text: Noto Sans Devanagari fallback. Do not use decorative fonts — this is a civic app, trust = clarity.<br>
+          <strong style="font-weight:500;color:var(--color-text-primary)">Line height:</strong> 1.4 for headings, 1.6 for body, 1.3 for compact UI text.<br>
+          <strong style="font-weight:500;color:var(--color-text-primary)">Only 2 weights:</strong> 400 regular + 500 medium. Never 600/700 in UI elements.
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section">
+      <div class="sec-label">Do vs Don't</div>
+      <div class="do-dont">
+        <div class="do">
+          <h5>Do</h5>
+          <p>Sharp 6–8px radius on all cards<br>Saffron for CTAs only<br>Bottom tab navigation<br>One primary action per screen<br>Bento card grid on home<br>Inter / system font<br>Dark mode support from day 1<br>48px minimum touch targets<br>High contrast labels on map pins<br>Consistent 16px horizontal padding</p>
+        </div>
+        <div class="dont">
+          <h5>Don't</h5>
+          <p>Don't use 24px pill buttons everywhere<br>No rainbow color usage<br>No hamburger menus<br>No 3+ CTAs on one screen<br>No decorative gradients on cards<br>No font below 11px<br>No light-mode-only design<br>No touch targets below 44px<br>No unlabelled icon-only nav<br>No centered body text blocks</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 2: TOKENS -->
+  <div id="page-tokens" class="page">
+    <div class="section">
+      <div class="sec-label">Color System</div>
+      <div class="sec-title">Civic Bold Palette</div>
+
+      <div style="margin-bottom:20px">
+        <div style="font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-bottom:8px">Primary actions — Saffron (Indian tricolor)</div>
+        <div class="swatch-row">
+          <div><div class="swatch" style="background:#FFF3E0"></div><div class="swatch-label">50</div></div>
+          <div><div class="swatch" style="background:#FFE0B2"></div><div class="swatch-label">100</div></div>
+          <div><div class="swatch" style="background:#FFCC80"></div><div class="swatch-label">200</div></div>
+          <div><div class="swatch" style="background:#FFA726"></div><div class="swatch-label">400</div></div>
+          <div><div class="swatch" style="background:#E65100;border:0.5px solid #ccc"></div><div class="swatch-label">600 ★</div></div>
+          <div><div class="swatch" style="background:#BF360C"></div><div class="swatch-label">800</div></div>
+          <div><div class="swatch" style="background:#7C2A0E"></div><div class="swatch-label">900</div></div>
+        </div>
+        <div style="font-size:11px;color:var(--color-text-tertiary)">★ Primary CTA: #E65100 on light, #FFA726 on dark. Use ONLY for the one key action per screen.</div>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <div style="font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-bottom:8px">Trust / Headers — Deep Navy</div>
+        <div class="swatch-row">
+          <div><div class="swatch" style="background:#E8EAF6"></div><div class="swatch-label">50</div></div>
+          <div><div class="swatch" style="background:#C5CAE9"></div><div class="swatch-label">100</div></div>
+          <div><div class="swatch" style="background:#7986CB"></div><div class="swatch-label">300</div></div>
+          <div><div class="swatch" style="background:#3F51B5"></div><div class="swatch-label">500</div></div>
+          <div><div class="swatch" style="background:#1A237E;border:0.5px solid #ccc"></div><div class="swatch-label">900 ★</div></div>
+        </div>
+        <div style="font-size:11px;color:var(--color-text-tertiary)">★ Use for page titles, candidate party labels, trust badges. Never as a background — only text and borders.</div>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <div style="font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-bottom:8px">Completion / Success — Forest Green</div>
+        <div class="swatch-row">
+          <div><div class="swatch" style="background:#E8F5E9"></div><div class="swatch-label">50</div></div>
+          <div><div class="swatch" style="background:#A5D6A7"></div><div class="swatch-label">200</div></div>
+          <div><div class="swatch" style="background:#4CAF50"></div><div class="swatch-label">500</div></div>
+          <div><div class="swatch" style="background:#1B5E20;border:0.5px solid #ccc"></div><div class="swatch-label">900 ★</div></div>
+        </div>
+        <div style="font-size:11px;color:var(--color-text-tertiary)">★ Checklist ticks, step completions, "You're ready" states, readiness score ring.</div>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <div style="font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-bottom:8px">Neutrals — UI Surface grays</div>
+        <div class="swatch-row">
+          <div><div class="swatch" style="background:#FAFAFA"></div><div class="swatch-label">bg</div></div>
+          <div><div class="swatch" style="background:#F5F5F5"></div><div class="swatch-label">surface</div></div>
+          <div><div class="swatch" style="background:#E0E0E0"></div><div class="swatch-label">border</div></div>
+          <div><div class="swatch" style="background:#9E9E9E"></div><div class="swatch-label">hint</div></div>
+          <div><div class="swatch" style="background:#424242"></div><div class="swatch-label">secondary</div></div>
+          <div><div class="swatch" style="background:#121212"></div><div class="swatch-label">primary</div></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <div style="font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-bottom:8px">Dark mode surface stack (dark-first design)</div>
+        <div class="swatch-row">
+          <div><div class="swatch" style="background:#0A0A0A"></div><div class="swatch-label">base</div></div>
+          <div><div class="swatch" style="background:#141414"></div><div class="swatch-label">bg</div></div>
+          <div><div class="swatch" style="background:#1E1E1E"></div><div class="swatch-label">card</div></div>
+          <div><div class="swatch" style="background:#2A2A2A"></div><div class="swatch-label">elevated</div></div>
+          <div><div class="swatch" style="background:#333333"></div><div class="swatch-label">border</div></div>
+          <div><div class="swatch" style="background:#E8E8E8"></div><div class="swatch-label">text</div></div>
+        </div>
+        <div style="font-size:11px;color:var(--color-text-tertiary)">Dark mode uses tonal elevation (lighter surface = higher elevation) not drop shadows. Design dark-first, light is derivative.</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section">
+      <div class="sec-label">Spacing System</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:12px">4px base unit — all spacing is multiples of 4</div>
+      <div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px"><div class="space-bar" style="width:4px;height:4px;display:inline-block;border-radius:1px"></div><div style="font-size:11px;color:var(--color-text-secondary)">4px — icon-to-text gap, internal badge padding</div></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px"><div class="space-bar" style="width:8px"></div><div style="font-size:11px;color:var(--color-text-secondary)">8px — between related elements, icon margins</div></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px"><div class="space-bar" style="width:12px"></div><div style="font-size:11px;color:var(--color-text-secondary)">12px — card internal gap, list item spacing</div></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px"><div class="space-bar" style="width:16px"></div><div style="font-size:11px;color:var(--color-text-secondary);font-weight:500">16px ★ — horizontal page padding (standard)</div></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px"><div class="space-bar" style="width:24px"></div><div style="font-size:11px;color:var(--color-text-secondary)">24px — section gap, card-to-card spacing</div></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px"><div class="space-bar" style="width:32px"></div><div style="font-size:11px;color:var(--color-text-secondary)">32px — major section breaks</div></div>
+        <div style="display:flex;align-items:center;gap:12px"><div class="space-bar" style="width:48px"></div><div style="font-size:11px;color:var(--color-text-secondary)">48px — minimum touch target height</div></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section">
+      <div class="sec-label">Elevation</div>
+      <div class="grid3">
+        <div style="padding:12px;border-radius:8px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);font-size:12px;color:var(--color-text-secondary)"><strong style="display:block;font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px">Level 0 — Page bg</strong>No border, no shadow. Just background.</div>
+        <div style="padding:12px;border-radius:8px;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);font-size:12px;color:var(--color-text-secondary)"><strong style="display:block;font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px">Level 1 — Cards</strong>0.5px border-secondary. No shadow.</div>
+        <div style="padding:12px;border-radius:8px;background:var(--color-background-primary);border:1px solid var(--color-border-primary);font-size:12px;color:var(--color-text-secondary)"><strong style="display:block;font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px">Level 2 — Active/hover</strong>1px border-primary. Scale 1.01.</div>
+        <div style="padding:12px;border-radius:8px;background:var(--color-background-primary);border:1.5px solid var(--color-border-info);font-size:12px;color:var(--color-text-secondary)"><strong style="display:block;font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px">Level 3 — Selected</strong>1.5px accent border. Colored bg tint.</div>
+        <div style="padding:12px;border-radius:8px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);outline:2px solid var(--color-border-info);outline-offset:2px;font-size:12px;color:var(--color-text-secondary)"><strong style="display:block;font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px">Level 4 — Focus ring</strong>2px outline offset. For keyboard nav.</div>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--color-text-tertiary);padding:8px 12px;background:var(--color-background-secondary);border-radius:6px">No drop shadows anywhere in light mode. In dark mode, use tonal surface shifts for elevation (darker = lower, lighter = higher).</div>
+    </div>
+  </div>
+
+  <!-- PAGE 3: COMPONENTS -->
+  <div id="page-components" class="page">
+
+    <div class="comp-preview">
+      <div class="comp-label">Bottom Navigation Bar</div>
+      <div class="mock-nav">
+        <div class="nav-item active">
+          <span class="nav-icon">🏠</span>
+          <span class="nav-label" style="color:var(--color-text-info)">Home</span>
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon">🗺️</span>
+          <span class="nav-label">Journey</span>
+        </div>
+        <div class="nav-item" style="position:relative">
+          <div style="position:absolute;top:-2px;width:36px;height:36px;background:var(--color-text-primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px">🗳️</div>
+          <span style="height:36px;display:block"></span>
+          <span class="nav-label">Vote</span>
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon">🧑‍💼</span>
+          <span class="nav-label">Explore</span>
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon">🧠</span>
+          <span class="nav-label">Learn</span>
+        </div>
+      </div>
+      <div style="font-size:10px;color:var(--color-text-tertiary);text-align:center;margin-top:8px">Center tab is elevated (FAB-style) — direct "Simulate Vote" shortcut</div>
+    </div>
+
+    <div class="comp-preview">
+      <div class="comp-label">Journey Progress Card</div>
+      <div class="mock-card">
+        <div class="mc-tag">Step 3 of 7</div>
+        <div class="mc-title">Know Your Candidates</div>
+        <div class="mc-sub">Read about 3 candidates in Varanasi North before voting day on May 23.</div>
+        <div class="mc-bar"><div class="mc-bar-fill"></div></div>
+        <div class="mc-footer"><span>68% complete</span><span>2 steps left</span></div>
+      </div>
+    </div>
+
+    <div class="comp-preview">
+      <div class="comp-label">Button Hierarchy</div>
+      <div class="mock-btn-row">
+        <button class="mbtn mbtn-primary">Start Journey</button>
+        <button class="mbtn mbtn-info">Find My Booth</button>
+        <button class="mbtn mbtn-secondary">Learn More</button>
+      </div>
+      <div style="font-size:10px;color:var(--color-text-tertiary);margin-top:8px">One primary (black fill) per screen max. Info-tinted for secondary actions. Ghost for tertiary.</div>
+    </div>
+
+    <div class="comp-preview">
+      <div class="comp-label">Step Pill Progress</div>
+      <div style="display:flex;gap:6px;align-items:center;padding:4px 0">
+        <div style="width:32px;height:6px;border-radius:3px;background:#E65100"></div>
+        <div style="width:32px;height:6px;border-radius:3px;background:#E65100"></div>
+        <div style="width:32px;height:6px;border-radius:3px;background:#E65100"></div>
+        <div style="width:32px;height:6px;border-radius:3px;background:var(--color-border-tertiary)"></div>
+        <div style="width:32px;height:6px;border-radius:3px;background:var(--color-border-tertiary)"></div>
+        <div style="width:32px;height:6px;border-radius:3px;background:var(--color-border-tertiary)"></div>
+        <div style="width:32px;height:6px;border-radius:3px;background:var(--color-border-tertiary)"></div>
+        <div style="font-size:11px;color:var(--color-text-tertiary);margin-left:4px">3/7</div>
+      </div>
+      <div style="font-size:10px;color:var(--color-text-tertiary);margin-top:6px">Saffron-filled pills. Visible from top of every journey screen.</div>
+    </div>
+
+    <div class="comp-preview">
+      <div class="comp-label">Candidate Flip Card (CSS 3D)</div>
+      <div style="display:flex;gap:10px">
+        <div style="flex:1;background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:8px;padding:12px">
+          <div style="font-size:10px;font-weight:500;color:var(--color-text-tertiary);margin-bottom:6px">FRONT</div>
+          <div style="width:36px;height:36px;border-radius:8px;background:#E65100;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:8px">👤</div>
+          <div style="font-size:13px;font-weight:500;color:var(--color-text-primary)">Rajesh Kumar</div>
+          <div style="font-size:11px;color:var(--color-text-secondary)">BJP · Varanasi North</div>
+          <div style="font-size:10px;margin-top:6px;padding:3px 7px;background:var(--color-background-info);color:var(--color-text-info);border-radius:4px;display:inline-block">Tap to flip →</div>
+        </div>
+        <div style="flex:1;background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:8px;padding:12px">
+          <div style="font-size:10px;font-weight:500;color:var(--color-text-tertiary);margin-bottom:6px">BACK</div>
+          <div style="font-size:11px;color:var(--color-text-secondary);line-height:1.5">Education: BA<br>Assets: ₹1.2Cr<br>Criminal: 0 cases<br>Promises: 8 kept / 12</div>
+          <div style="font-size:10px;margin-top:6px;padding:3px 7px;background:var(--color-background-success);color:var(--color-text-success);border-radius:4px;display:inline-block">View full profile</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="comp-preview">
+      <div class="comp-label">Toast / Notification</div>
+      <div style="background:var(--color-text-primary);color:var(--color-background-primary);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;max-width:320px">
+        <div>
+          <div style="font-size:12px;font-weight:500">Booth opens in 2 hours</div>
+          <div style="font-size:11px;opacity:0.7;margin-top:2px">Govt. School, Shivpur — 0.8 km</div>
+        </div>
+        <div style="font-size:11px;padding:4px 10px;background:rgba(255,255,255,0.15);border-radius:4px;cursor:pointer">Get directions</div>
+      </div>
+    </div>
+
+    <div class="comp-preview">
+      <div class="comp-label">Tags / Status Badges</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        <span class="pill pill-orange">AI-powered</span>
+        <span class="pill pill-green">Complete</span>
+        <span class="pill pill-blue">Step 3/7</span>
+        <span class="pill pill-teal">Simulated</span>
+        <span class="pill pill-red">Urgent</span>
+        <span class="pill pill-purple">New</span>
+        <span style="font-size:10px;padding:2px 8px;border-radius:4px;font-weight:500;background:#1B5E20;color:#E8F5E9">Voted</span>
+        <span style="font-size:10px;padding:2px 8px;border-radius:4px;font-weight:500;background:#E65100;color:#FFF3E0">CTA</span>
+      </div>
+      <div style="font-size:10px;color:var(--color-text-tertiary);margin-top:8px">Sharp 4px radius on status badges. Pill (10px) for categories. Use 800-stop text on 50-stop bg.</div>
+    </div>
+  </div>
+
+  <!-- PAGE 4: CONTROL FLOW -->
+  <div id="page-flow" class="page">
+
+    <div class="section">
+      <div class="sec-label">App Control Flow</div>
+      <div class="sec-title">Entry — First Launch</div>
+      <div class="flow-line">
+        <div class="flow-node accent">App open</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Check auth state</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node warn">No user?</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node accent">Onboarding (3 screens)</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Language pick</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Google Sign-in</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node ok">Home Dashboard</div>
+      </div>
+      <div class="flow-line" style="margin-top:6px">
+        <div class="flow-node warn">Returning user?</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node accent">Verify JWT token</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node ok">Home Dashboard</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Resume journey step</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="sec-label">Core Journey Flow</div>
+      <div class="flow-line">
+        <div class="flow-node ok">Home</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node accent">Tap "Start Journey"</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Step 1: Eligibility check</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Step 2: Voter ID verify</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Step 3: Candidates</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Step 4: Find booth</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Step 5: Checklist</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Step 6: Simulate</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node ok">Complete 🎉</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="sec-label">AI Chat Flow</div>
+      <div class="flow-line">
+        <div class="flow-node accent">User message</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Cloud NLP sentiment</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Intent classify</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node accent">Check cache</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node warn">Cache miss?</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Gemini Flash API</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node warn">Fails?</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Mistral fallback</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node ok">Stream response</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="sec-label">Find My Booth Flow</div>
+      <div class="flow-line">
+        <div class="flow-node accent">Open map</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Request geolocation</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node warn">Denied?</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node accent">Manual pincode input</div>
+      </div>
+      <div class="flow-line" style="margin-top:6px">
+        <div class="flow-node ok">Got location</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Load mock booth data</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Render Leaflet pins</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node accent">Tap pin</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Booth detail sheet</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node ok">Open maps / directions</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="sec-label">EVM Simulator Flow</div>
+      <div class="flow-line">
+        <div class="flow-node accent">Enter simulator</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Show instruction screen</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Load mock candidates</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node accent">User presses blue button</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Beep + button lock</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">VVPAT slip animation</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node ok">"Vote Recorded" screen</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Share / badge unlock</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="sec-label">Know Your Candidates Flow</div>
+      <div class="flow-line">
+        <div class="flow-node accent">Open Explore</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Load constituency candidates</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node accent">Tap candidate card</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Flip card animation</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Full profile sheet</div>
+      </div>
+      <div class="flow-line" style="margin-top:6px">
+        <div class="flow-node accent">Tap "Compare"</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Select 2 candidates</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node accent">POST /api/scenario</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node ok">AI side-by-side comparison</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="sec-label">Quiz Flow</div>
+      <div class="flow-line">
+        <div class="flow-node accent">Open Learn → Quiz</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">GET /api/quiz (5 questions)</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Question screen × 5</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node">Immediate feedback</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node accent">POST /api/quiz/submit</div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node ok">Score card + badge</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 5: SCREEN MAP -->
+  <div id="page-screens" class="page">
+    <div class="section">
+      <div class="sec-label">All Screens</div>
+      <div class="sec-title">Screen Architecture</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:14px">19 screens total — 5 primary (tab), 14 secondary (deep-link / sheet)</div>
+
+      <div style="margin-bottom:16px">
+        <div style="font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:8px">Primary Screens (Bottom Tab)</div>
+        <div class="grid4">
+          <div class="screen"><div class="screen-num">1</div><div class="screen-title">Home Dashboard</div><div class="screen-sub">Bento cards, today briefing, countdown, missions</div></div>
+          <div class="screen"><div class="screen-num">2</div><div class="screen-title">My Journey</div><div class="screen-sub">7-step personalised voting path, progress bar</div></div>
+          <div class="screen"><div class="screen-num">3</div><div class="screen-title">Vote (FAB)</div><div class="screen-sub">EVM simulator shortcut — center elevated tab</div></div>
+          <div class="screen"><div class="screen-num">4</div><div class="screen-title">Explore</div><div class="screen-sub">Candidate cards + constituency map</div></div>
+          <div class="screen"><div class="screen-num">5</div><div class="screen-title">Learn</div><div class="screen-sub">Quiz, guides, rights, timeline</div></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:16px">
+        <div style="font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:8px">Onboarding Screens</div>
+        <div class="grid4">
+          <div class="screen"><div class="screen-num" style="background:var(--color-background-warning);color:var(--color-text-warning)">O1</div><div class="screen-title">Welcome Splash</div><div class="screen-sub">App intro, mission statement, CTA</div></div>
+          <div class="screen"><div class="screen-num" style="background:var(--color-background-warning);color:var(--color-text-warning)">O2</div><div class="screen-title">Language Select</div><div class="screen-sub">22 Indian languages grid</div></div>
+          <div class="screen"><div class="screen-num" style="background:var(--color-background-warning);color:var(--color-text-warning)">O3</div><div class="screen-title">Profile Setup</div><div class="screen-sub">State, age, first-time voter?</div></div>
+          <div class="screen"><div class="screen-num" style="background:var(--color-background-warning);color:var(--color-text-warning)">O4</div><div class="screen-title">Sign In</div><div class="screen-sub">Google OAuth via Firebase</div></div>
+          <div class="screen"><div class="screen-num" style="background:var(--color-background-warning);color:var(--color-text-warning)">O5</div><div class="screen-title">Voter ID Card</div><div class="screen-sub">Generated digital card — animated entrance</div></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:16px">
+        <div style="font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:8px">Secondary / Deep Link Screens</div>
+        <div class="grid4">
+          <div class="screen"><div class="screen-title">Booth Map</div><div class="screen-sub">Full-screen Leaflet map</div></div>
+          <div class="screen"><div class="screen-title">Booth Detail</div><div class="screen-sub">Bottom sheet, directions</div></div>
+          <div class="screen"><div class="screen-title">Candidate Profile</div><div class="screen-sub">Full profile, flip card</div></div>
+          <div class="screen"><div class="screen-title">Candidate Compare</div><div class="screen-sub">AI side-by-side</div></div>
+          <div class="screen"><div class="screen-title">EVM Simulator</div><div class="screen-sub">Full-screen immersive</div></div>
+          <div class="screen"><div class="screen-title">VVPAT Animation</div><div class="screen-sub">7-second slip print</div></div>
+          <div class="screen"><div class="screen-title">Quiz Session</div><div class="screen-sub">Q+A + score card</div></div>
+          <div class="screen"><div class="screen-title">AI Chat</div><div class="screen-sub">Full-screen chat</div></div>
+          <div class="screen"><div class="screen-title">Checklist</div><div class="screen-sub">Voting day prep</div></div>
+          <div class="screen"><div class="screen-title">Rights Shield</div><div class="screen-sub">Swipeable cards</div></div>
+          <div class="screen"><div class="screen-title">Timeline</div><div class="screen-sub">Election calendar</div></div>
+          <div class="screen"><div class="screen-title">Badges / Profile</div><div class="screen-sub">Achievements, VIC card</div></div>
+          <div class="screen"><div class="screen-title">Scenario Sim</div><div class="screen-sub">What-if AI guide</div></div>
+          <div class="screen"><div class="screen-title">Settings</div><div class="screen-sub">Language, dark mode</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 6: RESPONSIVE -->
+  <div id="page-responsive" class="page">
+    <div class="section">
+      <div class="sec-label">Responsive Strategy</div>
+      <div class="sec-title">Mobile-first, Desktop-aware</div>
+      <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:16px;line-height:1.6">Design for 375px iPhone SE first. Scale up. India's primary device for this app is a ₹8,000–15,000 Android (360–390px viewport). Every layout must look perfect there before touching desktop.</p>
+
+      <div class="resp-tier">
+        <h5>Mobile S — 320–374px (low-end Androids)</h5>
+        <p>Single column. 14px horizontal padding. Compressed card heights. 11px caption text minimum. Bottom nav with icon + label. Test on this — many rural users.</p>
+      </div>
+      <div class="resp-tier">
+        <h5>Mobile M — 375–430px ★ Primary target</h5>
+        <p>Single column. 16px padding. Standard card sizes. 2-col grid for feature tiles. Bottom tab nav. This is your primary design surface.</p>
+      </div>
+      <div class="resp-tier">
+        <h5>Mobile L / Foldable — 431–767px</h5>
+        <p>2-column bento grid on home. Wider cards. Bottom nav preserved. Candidate cards side-by-side.</p>
+      </div>
+      <div class="resp-tier">
+        <h5>Tablet — 768–1023px</h5>
+        <p>Left sidebar replaces bottom nav (64px wide, icon-only). Main content max-width 640px centred. 3-col card grid. Map takes 60% width with side panel.</p>
+      </div>
+      <div class="resp-tier">
+        <h5>Desktop — 1024px+</h5>
+        <p>Left sidebar 220px with labels. Content max-width 900px. Dashboard goes 3-col bento. Map + candidate panel side-by-side. Keyboard nav fully supported.</p>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section">
+      <div class="sec-label">Accessibility Checklist</div>
+      <div class="grid2">
+        <div class="card"><h4>Touch targets ≥ 48px</h4><p>All tappable elements must be 48×48px minimum. Pad small icons. Test with fat-finger mode.</p></div>
+        <div class="card"><h4>Color is never the only signal</h4><p>Every status badge has text + color. Never rely on red/green alone — 8% of men are color-blind.</p></div>
+        <div class="card"><h4>WCAG AA contrast</h4><p>4.5:1 for body text, 3:1 for large text. Test every color combination including dark mode.</p></div>
+        <div class="card"><h4>Screen reader (ARIA)</h4><p>All buttons have aria-label. Images have alt text. Modals have role="dialog". Tab order is logical.</p></div>
+        <div class="card"><h4>Font scaling support</h4><p>Use rem/em not px for font sizes. App must not break at 200% system font size.</p></div>
+        <div class="card"><h4>Multilingual layout</h4><p>Hindi text is ~30% longer than English. Test all cards with Devanagari text. Never clip text.</p></div>
+        <div class="card"><h4>Reduced motion</h4><p>Wrap all animations in prefers-reduced-motion. Core functionality works without any animation.</p></div>
+        <div class="card"><h4>Offline / low-data mode</h4><p>Skeleton loaders not spinners. Cache key screens. Show stale data with timestamp rather than blank screen.</p></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section">
+      <div class="sec-label">Tailwind CSS Setup</div>
+      <div style="background:var(--color-background-secondary);border-radius:8px;padding:12px 14px;font-size:11px;color:var(--color-text-secondary);line-height:1.7">
+        <div style="color:var(--color-text-primary);font-weight:500;margin-bottom:6px">Custom tokens to add to tailwind.config.js:</div>
+        <code style="font-family:var(--font-mono);font-size:10px;display:block;color:var(--color-text-secondary)">
+          colors.saffron → #E65100 (primary CTA)<br>
+          colors.navy → #1A237E (trust/headings)<br>
+          colors.forest → #1B5E20 (success)<br>
+          borderRadius.card → 8px<br>
+          borderRadius.button → 6px<br>
+          borderRadius.badge → 4px<br>
+          spacing.page → 16px (horizontal padding)<br>
+          fontFamily.hindi → ['Noto Sans Devanagari', 'sans-serif']
+        </code>
+        <div style="margin-top:8px;color:var(--color-text-tertiary)">Extend, don't override. Keep all Tailwind defaults available for utility use.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('page-' + id).classList.add('active');
+}
+</script>

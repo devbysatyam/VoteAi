@@ -1,0 +1,490 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.blueprint { padding: 1.5rem 0; }
+.section { margin-bottom: 2.5rem; }
+.section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; border-bottom: 0.5px solid var(--color-border-tertiary); padding-bottom: 10px; }
+.section-badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; }
+.badge-purple { background: #EEEDFE; color: #3C3489; }
+.badge-teal { background: #E1F5EE; color: #085041; }
+.badge-coral { background: #FAECE7; color: #712B13; }
+.badge-amber { background: #FAEEDA; color: #633806; }
+.badge-blue { background: #E6F1FB; color: #0C447C; }
+.badge-green { background: #EAF3DE; color: #27500A; }
+.badge-pink { background: #FBEAF0; color: #72243E; }
+.section-title { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+.cards-grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+.feature-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 12px; padding: 14px 16px; cursor: pointer; transition: border-color 0.15s; }
+.feature-card:hover { border-color: var(--color-border-secondary); }
+.feature-card .icon { font-size: 16px; margin-bottom: 8px; }
+.feature-card .title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.feature-card .desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+.feature-card .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+.tag { font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 500; }
+.tag-ai { background: #EEEDFE; color: #534AB7; }
+.tag-sim { background: #FAEEDA; color: #854F0B; }
+.tag-card { background: #E1F5EE; color: #0F6E56; }
+.tag-immersive { background: #FAECE7; color: #993C1D; }
+.tag-nav { background: #E6F1FB; color: #185FA5; }
+.tag-onboard { background: #FBEAF0; color: #993556; }
+.flow-row { display: flex; align-items: flex-start; gap: 0; overflow-x: auto; padding-bottom: 8px; }
+.flow-step { flex: 0 0 130px; text-align: center; position: relative; }
+.flow-step-inner { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 8px; padding: 10px 8px; font-size: 11px; color: var(--color-text-secondary); }
+.flow-step-inner strong { display: block; font-size: 12px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 3px; }
+.flow-arrow { flex: 0 0 24px; display: flex; align-items: center; justify-content: center; color: var(--color-text-tertiary); font-size: 16px; padding-top: 20px; }
+.priority-list { display: flex; flex-direction: column; gap: 8px; }
+.priority-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 14px; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 8px; }
+.priority-num { flex: 0 0 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; }
+.p1 { background: #FAECE7; color: #712B13; }
+.p2 { background: #FAEEDA; color: #633806; }
+.p3 { background: #E6F1FB; color: #0C447C; }
+.priority-content .title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+.priority-content .desc { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; line-height: 1.4; }
+.screen-flow { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
+.screen-box { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 8px; padding: 10px 8px; text-align: center; font-size: 11px; color: var(--color-text-secondary); }
+.screen-box strong { display: block; font-size: 12px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 2px; }
+.divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 0.5rem 0 1.5rem; }
+.big-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: 20px; margin-bottom: 12px; }
+</style>
+
+<div class="blueprint">
+
+  <!-- HERO -->
+  <div style="text-align:center;padding:1rem 0 2rem;">
+    <div style="font-size:22px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px;">🗳️ VoteAI — Complete Feature Blueprint</div>
+    <div style="font-size:13px;color:var(--color-text-secondary);">Hack2Skill × Challenge 2 — Full-stack Indian election assistant</div>
+  </div>
+
+  <!-- SECTION 1: ONBOARDING -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-badge badge-pink">Phase 1</span>
+      <span class="section-title">AI-Powered Onboarding Journey</span>
+    </div>
+    <div class="cards-grid">
+      <div class="feature-card" onclick="sendPrompt('How to build the conversational onboarding flow for the election app?')">
+        <div class="icon">🤖</div>
+        <div class="title">Conversational AI Onboarding</div>
+        <div class="desc">Chat-style welcome: AI asks state, age, first-time voter? in natural language. Personalises the entire app from step 1.</div>
+        <div class="tags"><span class="tag tag-ai">AI</span><span class="tag tag-onboard">Onboarding</span></div>
+      </div>
+      <div class="feature-card" onclick="sendPrompt('Design a voter profile card creation flow')">
+        <div class="icon">🪪</div>
+        <div class="title">Voter Identity Card (VIC)</div>
+        <div class="desc">After onboarding, generates a beautiful digital voter ID card with name, state, constituency, voter type badge.</div>
+        <div class="tags"><span class="tag tag-card">Card</span><span class="tag tag-onboard">Onboarding</span></div>
+      </div>
+      <div class="feature-card" onclick="sendPrompt('Build a progress ring / voter readiness score for election app')">
+        <div class="icon">📊</div>
+        <div class="title">Readiness Score Card</div>
+        <div class="desc">Animated ring showing voter preparedness %. Updates live as user completes checklist items.</div>
+        <div class="tags"><span class="tag tag-card">Card</span><span class="tag tag-ai">AI</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🌐</div>
+        <div class="title">Language Selection Screen</div>
+        <div class="desc">22 Indian languages shown as a visual grid with script previews. Persists choice throughout the app.</div>
+        <div class="tags"><span class="tag tag-onboard">Onboarding</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: HOME DASHBOARD -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-badge badge-blue">Dashboard</span>
+      <span class="section-title">Home Screen — Command Centre</span>
+    </div>
+    <div class="cards-grid">
+      <div class="feature-card" onclick="sendPrompt('Design a today card / daily election briefing widget')">
+        <div class="icon">☀️</div>
+        <div class="title">"Today" Election Briefing Card</div>
+        <div class="desc">Top card showing: days to election, weather on voting day, your booth's opening time, and one AI tip.</div>
+        <div class="tags"><span class="tag tag-ai">AI</span><span class="tag tag-card">Card</span></div>
+      </div>
+      <div class="feature-card" onclick="sendPrompt('Build a mission card system for civic tasks')">
+        <div class="icon">🎯</div>
+        <div class="title">Mission Cards (Gamified)</div>
+        <div class="desc">Daily civic missions: "Read 1 candidate profile", "Complete voter checklist", "Take the quiz". XP + badge rewards.</div>
+        <div class="tags"><span class="tag tag-card">Card</span><span class="tag tag-immersive">Immersive</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">⏰</div>
+        <div class="title">Countdown Timer Card</div>
+        <div class="desc">Live countdown to election day with pulsing animation. Flips to "Voting is open!" on election day.</div>
+        <div class="tags"><span class="tag tag-card">Card</span></div>
+      </div>
+      <div class="feature-card" onclick="sendPrompt('How to build a horizontal scrollable feature cards navigation bar?')">
+        <div class="icon">🃏</div>
+        <div class="title">Feature Card Carousel</div>
+        <div class="desc">Horizontal swipe cards for: My Journey, Find Booth, Know Candidates, Simulate Vote, Quiz. Swipe to navigate.</div>
+        <div class="tags"><span class="tag tag-card">Card</span><span class="tag tag-nav">Nav</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: JOURNEY -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-badge badge-purple">Core Feature</span>
+      <span class="section-title">Personalised Voting Journey (Step-by-Step)</span>
+    </div>
+    <div style="margin-bottom:12px;">
+      <div class="flow-row">
+        <div class="flow-step"><div class="flow-step-inner"><strong>Profile Setup</strong>State + constituency</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="flow-step-inner"><strong>Check Eligibility</strong>AI verifies age, docs</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="flow-step-inner"><strong>Register / Verify</strong>Voter ID check link</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="flow-step-inner"><strong>Know Candidates</strong>AI summaries</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="flow-step-inner"><strong>Find Booth</strong>Map + directions</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="flow-step-inner"><strong>Day Checklist</strong>Docs + timing</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="flow-step-inner"><strong>Cast Vote</strong>Simulation practice</div></div>
+      </div>
+    </div>
+    <div class="cards-grid-3">
+      <div class="feature-card">
+        <div class="icon">📍</div>
+        <div class="title">Step Progress Bar</div>
+        <div class="desc">Sticky top bar showing step X of 7 with filled pills. Tappable to jump.</div>
+        <div class="tags"><span class="tag tag-nav">Nav</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">💬</div>
+        <div class="title">AI Step Coach</div>
+        <div class="desc">At each step, an AI speech bubble explains what to do and why.</div>
+        <div class="tags"><span class="tag tag-ai">AI</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🔖</div>
+        <div class="title">Save & Resume</div>
+        <div class="desc">Journey state saved to Firebase. Resume from any device.</div>
+        <div class="tags"><span class="tag tag-card">Card</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🔔</div>
+        <div class="title">Smart Reminders</div>
+        <div class="desc">Push notifications for upcoming steps e.g. "Booth opens in 2 hours".</div>
+        <div class="tags"><span class="tag tag-ai">AI</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: KNOW YOUR CANDIDATE -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-badge badge-teal">Know Your Candidate</span>
+      <span class="section-title">Candidate Intelligence Hub</span>
+    </div>
+    <div class="cards-grid">
+      <div class="feature-card" onclick="sendPrompt('Build a candidate profile card UI with party, education, criminal record, assets')">
+        <div class="icon">🧑‍💼</div>
+        <div class="title">Candidate Profile Card</div>
+        <div class="desc">Flip card: front shows photo/party/name. Back shows education, assets, criminal record (ECI affidavit data), past promises.</div>
+        <div class="tags"><span class="tag tag-card">Card</span><span class="tag tag-immersive">Immersive</span></div>
+      </div>
+      <div class="feature-card" onclick="sendPrompt('Build an AI candidate comparator tool')">
+        <div class="icon">⚖️</div>
+        <div class="title">AI Candidate Comparator</div>
+        <div class="desc">Select 2 candidates — AI generates a neutral side-by-side comparison on key issues: economy, local development, education.</div>
+        <div class="tags"><span class="tag tag-ai">AI</span><span class="tag tag-card">Card</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📜</div>
+        <div class="title">Party Manifesto Explainer</div>
+        <div class="desc">AI summarises party manifestos in plain language. Filter by topic: healthcare, farmers, youth. Simulated for hackathon.</div>
+        <div class="tags"><span class="tag tag-ai">AI</span><span class="tag tag-sim">Simulated</span></div>
+      </div>
+      <div class="feature-card" onclick="sendPrompt('Build a promise tracker card for election candidates')">
+        <div class="icon">✅</div>
+        <div class="title">Promise Tracker</div>
+        <div class="desc">Past election promises shown as fulfilled / in-progress / broken badges. Visual accountability card.</div>
+        <div class="tags"><span class="tag tag-card">Card</span><span class="tag tag-sim">Simulated</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🗳️</div>
+        <div class="title">Vote History Visualiser</div>
+        <div class="desc">Bar chart of constituency's past election results. Who won, by how much, voter turnout trend.</div>
+        <div class="tags"><span class="tag tag-immersive">Immersive</span><span class="tag tag-sim">Simulated</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🎤</div>
+        <div class="title">AI Interview Simulator</div>
+        <div class="desc">"Ask the candidate" — AI role-plays as the candidate (clearly labelled as AI, not real) answering user questions based on public data.</div>
+        <div class="tags"><span class="tag tag-ai">AI</span><span class="tag tag-immersive">Immersive</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: FIND MY BOOTH -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-badge badge-green">Navigation</span>
+      <span class="section-title">Find My Booth — Immersive Map Experience</span>
+    </div>
+    <div class="cards-grid">
+      <div class="feature-card" onclick="sendPrompt('Build an interactive Leaflet map with polling booth markers for election app')">
+        <div class="icon">🗺️</div>
+        <div class="title">Live Booth Finder Map</div>
+        <div class="desc">Leaflet map centred on user's location. Booths shown as pins. Tap pin → booth card slides up with queue estimate, facilities.</div>
+        <div class="tags"><span class="tag tag-nav">Nav</span><span class="tag tag-immersive">Immersive</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🧭</div>
+        <div class="title">Turn-by-Turn Route Card</div>
+        <div class="desc">Step-by-step walking/driving directions to booth. Offline-friendly. Shows distance + estimated travel time.</div>
+        <div class="tags"><span class="tag tag-card">Card</span><span class="tag tag-nav">Nav</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">♿</div>
+        <div class="title">Accessibility Filter</div>
+        <div class="desc">Filter booths by: wheelchair ramp, ramp + braille, shade, water, women's queue, EVM type.</div>
+        <div class="tags"><span class="tag tag-nav">Nav</span></div>
+      </div>
+      <div class="feature-card" onclick="sendPrompt('Build a booth detail card with queue simulation and facilities')">
+        <div class="icon">🏫</div>
+        <div class="title">Booth Detail Card</div>
+        <div class="desc">Swipe-up card: address, building photo, best time to go (AI-suggested off-peak), voter list serial no., ECI contact.</div>
+        <div class="tags"><span class="tag tag-card">Card</span><span class="tag tag-ai">AI</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: SIMULATION -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-badge badge-amber">Simulation</span>
+      <span class="section-title">Immersive Voting Simulations (No Real Data Needed)</span>
+    </div>
+    <div class="cards-grid">
+      <div class="feature-card" onclick="sendPrompt('Build a full EVM voting machine simulator in React with buttons and result screen')">
+        <div class="icon">🖥️</div>
+        <div class="title">EVM Machine Simulator</div>
+        <div class="desc">Pixel-perfect mock EVM: candidate list with party symbols, blue button press, beep sound, "Vote Recorded" confirmation screen.</div>
+        <div class="tags"><span class="tag tag-sim">Simulated</span><span class="tag tag-immersive">Immersive</span></div>
+      </div>
+      <div class="feature-card" onclick="sendPrompt('Build a voting booth walk-through tutorial with 3D-style steps')">
+        <div class="icon">🚶</div>
+        <div class="title">Booth Walk-Through</div>
+        <div class="desc">5-step animated tutorial: enter → ID check → get slip → EVM room → vote cast. Each step has an animated illustration.</div>
+        <div class="tags"><span class="tag tag-sim">Simulated</span><span class="tag tag-immersive">Immersive</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🎭</div>
+        <div class="title">Election Scenario Simulator</div>
+        <div class="desc">What if? scenarios: "What happens if you miss the voter list?", "Can you vote without Aadhaar?". AI guides you through correct procedure.</div>
+        <div class="tags"><span class="tag tag-ai">AI</span><span class="tag tag-sim">Simulated</span></div>
+      </div>
+      <div class="feature-card" onclick="sendPrompt('Build a mock results night screen with constituency-level result simulation')">
+        <div class="icon">📈</div>
+        <div class="title">Results Night Simulator</div>
+        <div class="desc">Watch simulated vote counts update in real-time with animated bar charts. First-past-the-post explanation built in.</div>
+        <div class="tags"><span class="tag tag-sim">Simulated</span><span class="tag tag-immersive">Immersive</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🗺️</div>
+        <div class="title">Constituency Map Explorer</div>
+        <div class="desc">SVG map of India → click state → see Lok Sabha / Vidhan Sabha seats → color-coded by past results.</div>
+        <div class="tags"><span class="tag tag-sim">Simulated</span><span class="tag tag-nav">Nav</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🪪</div>
+        <div class="title">VVPAT Slip Simulator</div>
+        <div class="desc">After EVM simulation, shows animated VVPAT slip printing for 7 seconds — teaches voters what to expect.</div>
+        <div class="tags"><span class="tag tag-sim">Simulated</span><span class="tag tag-immersive">Immersive</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 7: EPIC CARD FEATURES -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-badge badge-coral">Epic Cards</span>
+      <span class="section-title">Card-Based Feature System</span>
+    </div>
+    <div class="cards-grid">
+      <div class="feature-card" onclick="sendPrompt('Design a collectible civic achievement badge card system')">
+        <div class="icon">🏅</div>
+        <div class="title">Civic Achievement Badges</div>
+        <div class="desc">Collectible badge cards earned by completing features: "Informed Voter", "Quiz Master", "Explorer", "First Vote". Shareable to social.</div>
+        <div class="tags"><span class="tag tag-card">Card</span><span class="tag tag-immersive">Immersive</span></div>
+      </div>
+      <div class="feature-card" onclick="sendPrompt('Build a shareable voter pledge card generator')">
+        <div class="icon">🤝</div>
+        <div class="title">Voter Pledge Card</div>
+        <div class="desc">Personalised "I pledge to vote" card with user's name, date, constituency. Download/share as image to WhatsApp/Instagram.</div>
+        <div class="tags"><span class="tag tag-card">Card</span></div>
+      </div>
+      <div class="feature-card" onclick="sendPrompt('Build a voting day survival kit card with checklist')">
+        <div class="icon">🎒</div>
+        <div class="title">Voting Day Kit Card</div>
+        <div class="desc">Beautiful card: what to carry (Voter ID, Aadhaar), wear, avoid. Toggle checklist. Morning-of reminder notification.</div>
+        <div class="tags"><span class="tag tag-card">Card</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📰</div>
+        <div class="title">Constituency Fact Card</div>
+        <div class="desc">AI-generated fact card for your constituency: population, literacy rate, dominant issues, last turnout %, key infrastructure.</div>
+        <div class="tags"><span class="tag tag-card">Card</span><span class="tag tag-ai">AI</span><span class="tag tag-sim">Simulated</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🃏</div>
+        <div class="title">Rights & Duties Flashcards</div>
+        <div class="desc">Swipeable Tinder-style flashcards: "Did you know? You can vote even if name spelling is slightly wrong." Learn while swiping.</div>
+        <div class="tags"><span class="tag tag-card">Card</span><span class="tag tag-immersive">Immersive</span></div>
+      </div>
+      <div class="feature-card" onclick="sendPrompt('Build a civic score leaderboard card with friends comparison')">
+        <div class="icon">🏆</div>
+        <div class="title">Civic Score Leaderboard</div>
+        <div class="desc">See how your quiz score + journey completion ranks against your state. Weekly top voters spotlight card.</div>
+        <div class="tags"><span class="tag tag-card">Card</span><span class="tag tag-immersive">Immersive</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 8: TUTORIAL & EDUCATION -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-badge badge-blue">Education</span>
+      <span class="section-title">Interactive Tutorials & Educational Modules</span>
+    </div>
+    <div class="cards-grid-3">
+      <div class="feature-card" onclick="sendPrompt('Build an animated explainer: how does FPTP voting work in India?')">
+        <div class="icon">📖</div>
+        <div class="title">How Elections Work</div>
+        <div class="desc">5-screen animated comic explaining FPTP, ECI, constituencies, EVMs, counting day.</div>
+        <div class="tags"><span class="tag tag-immersive">Immersive</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📅</div>
+        <div class="title">Election Timeline</div>
+        <div class="desc">Vertical scrollable timeline: announcement → nomination → campaign → silence period → voting → results. Each node has AI detail.</div>
+        <div class="tags"><span class="tag tag-ai">AI</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🧠</div>
+        <div class="title">AI Quiz Arena</div>
+        <div class="desc">Daily 5-question quiz on electoral rights. Difficulty adapts. Show correct answer with source. Streak counter.</div>
+        <div class="tags"><span class="tag tag-ai">AI</span><span class="tag tag-immersive">Immersive</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🎓</div>
+        <div class="title">First-Time Voter Guide</div>
+        <div class="desc">Dedicated 6-step illustrated guide for new voters. Warm, encouraging tone. Celebrates their first vote journey.</div>
+        <div class="tags"><span class="tag tag-onboard">Onboarding</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">⚖️</div>
+        <div class="title">Model Code of Conduct</div>
+        <div class="desc">What you can/cannot do during elections. Interactive accordion with real ECI rules.</div>
+        <div class="tags"><span class="tag tag-ai">AI</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🛡️</div>
+        <div class="title">Voter Rights Shield Card</div>
+        <div class="desc">Know your rights: "Can't be turned away if your name is on roll", "Booth Capture is an offence". Swipeable rights cards.</div>
+        <div class="tags"><span class="tag tag-card">Card</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 9: NAVIGATION SYSTEM -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-badge badge-green">UX</span>
+      <span class="section-title">Navigation Architecture</span>
+    </div>
+    <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:12px;">Bottom tab bar (mobile) + sidebar (desktop) — 5 primary destinations</div>
+    <div class="screen-flow">
+      <div class="screen-box"><strong>Home</strong>Dashboard + Today Card</div>
+      <div class="screen-box"><strong>Journey</strong>My Voting Path</div>
+      <div class="screen-box"><strong>Explore</strong>Candidates + Map</div>
+      <div class="screen-box"><strong>Simulate</strong>EVM + Scenarios</div>
+      <div class="screen-box"><strong>Learn</strong>Quiz + Guides</div>
+    </div>
+    <div style="margin-top:12px;font-size:12px;color:var(--color-text-secondary);">Secondary screens (reached via cards/deep links)</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">
+      <span style="font-size:11px;padding:3px 10px;background:var(--color-background-secondary);border-radius:6px;color:var(--color-text-secondary);">Candidate Detail</span>
+      <span style="font-size:11px;padding:3px 10px;background:var(--color-background-secondary);border-radius:6px;color:var(--color-text-secondary);">Booth Detail</span>
+      <span style="font-size:11px;padding:3px 10px;background:var(--color-background-secondary);border-radius:6px;color:var(--color-text-secondary);">EVM Simulator</span>
+      <span style="font-size:11px;padding:3px 10px;background:var(--color-background-secondary);border-radius:6px;color:var(--color-text-secondary);">Quiz Session</span>
+      <span style="font-size:11px;padding:3px 10px;background:var(--color-background-secondary);border-radius:6px;color:var(--color-text-secondary);">Profile / Badges</span>
+      <span style="font-size:11px;padding:3px 10px;background:var(--color-background-secondary);border-radius:6px;color:var(--color-text-secondary);">Language Settings</span>
+      <span style="font-size:11px;padding:3px 10px;background:var(--color-background-secondary);border-radius:6px;color:var(--color-text-secondary);">Rights & Laws</span>
+      <span style="font-size:11px;padding:3px 10px;background:var(--color-background-secondary);border-radius:6px;color:var(--color-text-secondary);">AI Chat</span>
+      <span style="font-size:11px;padding:3px 10px;background:var(--color-background-secondary);border-radius:6px;color:var(--color-text-secondary);">Checklist</span>
+      <span style="font-size:11px;padding:3px 10px;background:var(--color-background-secondary);border-radius:6px;color:var(--color-text-secondary);">Share Card</span>
+    </div>
+  </div>
+
+  <!-- SECTION 10: BUILD PRIORITY -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-badge badge-coral">Hackathon Priority</span>
+      <span class="section-title">What to Build First (Submission Strategy)</span>
+    </div>
+    <div class="priority-list">
+      <div class="priority-item">
+        <div class="priority-num p1">1</div>
+        <div class="priority-content">
+          <div class="title">AI Chat + Personalised Journey (Core problem statement)</div>
+          <div class="desc">This is literally what the judges score — interactive election process guide. Do this first, make it excellent.</div>
+        </div>
+      </div>
+      <div class="priority-item">
+        <div class="priority-num p1">2</div>
+        <div class="priority-content">
+          <div class="title">EVM Simulator + Booth Walk-Through (Wow factor)</div>
+          <div class="desc">Highest visual impact. Judges see this and immediately understand the product's value.</div>
+        </div>
+      </div>
+      <div class="priority-item">
+        <div class="priority-num p1">3</div>
+        <div class="priority-content">
+          <div class="title">Candidate Profile Cards + Comparator</div>
+          <div class="desc">Differentiates from basic chatbots. Shows depth of election-specific thinking.</div>
+        </div>
+      </div>
+      <div class="priority-item">
+        <div class="priority-num p2">4</div>
+        <div class="priority-content">
+          <div class="title">Voter ID Card + Badge System (Delight layer)</div>
+          <div class="desc">Memorable, shareable, emotional connection. Makes the demo unforgettable.</div>
+        </div>
+      </div>
+      <div class="priority-item">
+        <div class="priority-num p2">5</div>
+        <div class="priority-content">
+          <div class="title">Interactive Quiz + Timeline</div>
+          <div class="desc">Proves educational mission. Easy to build, high score on problem statement alignment.</div>
+        </div>
+      </div>
+      <div class="priority-item">
+        <div class="priority-num p3">6</div>
+        <div class="priority-content">
+          <div class="title">Map, multilingual, leaderboard (polish)</div>
+          <div class="desc">Add after core features work. Significantly boosts accessibility and Google services score.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+    <span style="font-size:11px;color:var(--color-text-tertiary);">Tags:</span>
+    <span class="tag tag-ai">AI — uses Gemini/Claude API</span>
+    <span class="tag tag-sim">Simulated — mock data for hackathon</span>
+    <span class="tag tag-card">Card — visual card UI component</span>
+    <span class="tag tag-immersive">Immersive — animated / interactive</span>
+    <span class="tag tag-nav">Nav — navigation / map</span>
+    <span class="tag tag-onboard">Onboarding — first-run flow</span>
+  </div>
+  <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:8px;">Click any card to ask Claude how to build it.</div>
+
+</div>
