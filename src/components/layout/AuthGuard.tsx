@@ -1,6 +1,7 @@
 /**
- * AuthGuard — protects routes from unauthenticated access.
- * Redirects to /welcome if user is not logged in.
+ * AuthGuard — route protection component.
+ * Redirects unauthenticated users to /welcome.
+ * Wraps all protected routes via React Router's Outlet pattern.
  */
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';

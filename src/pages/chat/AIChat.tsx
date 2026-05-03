@@ -1,9 +1,13 @@
+/**
+ * AIChat — real-time AI election assistant powered by Gemini.
+ * Features: message validation, quick replies, typing indicator, aria-live chat log.
+ */
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { sendChatMessage } from '../../services/gemini';
 import { validateMessage } from '../../utils/validation';
 
-interface Message { role: 'user' | 'ai'; text: string; timestamp: number; }
+/** Chat message shape */interface Message { role: 'user' | 'ai'; text: string; timestamp: number; }
 
 export default function AIChat() {
   const navigate = useNavigate();

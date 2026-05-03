@@ -1,3 +1,7 @@
+/**
+ * Dashboard — main home screen with readiness ring, countdown timer,
+ * quick access grid, daily missions, and trending civic topics.
+ */
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import { useJourneyStore } from '../../store/journeyStore';
