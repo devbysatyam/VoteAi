@@ -20,8 +20,8 @@ export default function SignIn() {
       } else {
         setError('Sign-in failed. Please try again.');
       }
-    } catch (err: any) {
-      setError(err.message || 'Sign-in failed. Please try again.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Sign-in failed. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -41,7 +41,7 @@ export default function SignIn() {
       </p>
 
       {error && (
-        <div className="card-accent" style={{ maxWidth: 320, marginBottom: 16, background: 'var(--red-50)', border: '1px solid var(--red-500)' }}>
+        <div role="alert" className="card-accent" style={{ maxWidth: 320, marginBottom: 16, background: 'var(--red-50)', border: '1px solid var(--red-500)' }}>
           <div className="text-body" style={{ color: 'var(--red-500)' }}>⚠️ {error}</div>
         </div>
       )}
@@ -50,6 +50,7 @@ export default function SignIn() {
         className="btn btn-full"
         onClick={handleGoogleSignIn}
         disabled={loading}
+        aria-label="Sign in with Google"
         style={{ maxWidth: 320, background: 'var(--color-card)', border: '1px solid var(--color-border)', color: 'var(--color-text-primary)', marginBottom: 16, opacity: loading ? 0.6 : 1 }}
       >
         {loading ? (
@@ -62,7 +63,7 @@ export default function SignIn() {
         )}
       </button>
 
-      <button className="btn btn-ghost" onClick={handleGuest} style={{ fontSize: 13 }}>
+      <button className="btn btn-ghost" onClick={handleGuest} aria-label="Continue as guest" style={{ fontSize: 13 }}>
         Or continue as guest →
       </button>
 

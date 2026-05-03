@@ -85,7 +85,7 @@ export default function Dashboard() {
 
         {/* Readiness Ring */}
         <div className="card bento-half" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <div className="readiness-ring">
+          <div className="readiness-ring" role="img" aria-label={`Voter readiness: ${readinessScore} percent`}>
             <svg width="100" height="100" viewBox="0 0 100 100">
               <circle className="ring-bg" cx="50" cy="50" r={circleRadius} />
               <circle className="ring-fill" cx="50" cy="50" r={circleRadius}
@@ -114,8 +114,8 @@ export default function Dashboard() {
           <div className="text-label" style={{ marginBottom: 8 }}>QUICK ACCESS</div>
           <div className="carousel">
             {features.map((f) => (
-              <button key={f.path} className="carousel-item card" onClick={() => navigate(f.path)} style={{ textAlign: 'center', padding: '16px 8px' }}>
-                <div style={{ fontSize: 28, marginBottom: 6 }}>{f.icon}</div>
+              <button key={f.path} className="carousel-item card" onClick={() => navigate(f.path)} aria-label={f.label} style={{ textAlign: 'center', padding: '16px 8px' }}>
+                <div style={{ fontSize: 28, marginBottom: 6 }} aria-hidden="true">{f.icon}</div>
                 <div className="text-caption">{f.label}</div>
               </button>
             ))}
@@ -139,23 +139,23 @@ export default function Dashboard() {
         <div className="bento-full card" style={{ padding: 16 }}>
           <div className="text-label" style={{ marginBottom: 12 }}>TRENDING CIVIC TOPICS</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }} onClick={() => navigate('/learn')}>
-              <div style={{ fontSize: 24, background: 'var(--color-surface)', padding: 8, borderRadius: 8 }}>🗳️</div>
+            <button role="link" style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer', background: 'none', border: 'none', width: '100%', textAlign: 'left', padding: 0 }} onClick={() => navigate('/learn')} aria-label="How EVMs Work">
+              <div style={{ fontSize: 24, background: 'var(--color-surface)', padding: 8, borderRadius: 8 }} aria-hidden="true">🗳️</div>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 14, fontWeight: 600 }}>How EVMs Work</div>
                 <div className="text-caption">Understanding the voting machine</div>
               </div>
-              <div style={{ color: 'var(--color-accent)' }}>→</div>
-            </div>
+              <div style={{ color: 'var(--color-accent)' }} aria-hidden="true">→</div>
+            </button>
             <div style={{ height: 1, background: 'var(--color-border)' }} />
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }} onClick={() => navigate('/rights')}>
-              <div style={{ fontSize: 24, background: 'var(--color-surface)', padding: 8, borderRadius: 8 }}>⚖️</div>
+            <button role="link" style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer', background: 'none', border: 'none', width: '100%', textAlign: 'left', padding: 0 }} onClick={() => navigate('/rights')} aria-label="Know Your Rights">
+              <div style={{ fontSize: 24, background: 'var(--color-surface)', padding: 8, borderRadius: 8 }} aria-hidden="true">⚖️</div>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 14, fontWeight: 600 }}>Know Your Rights</div>
                 <div className="text-caption">Voter rights guaranteed by the Constitution</div>
               </div>
-              <div style={{ color: 'var(--color-accent)' }}>→</div>
-            </div>
+              <div style={{ color: 'var(--color-accent)' }} aria-hidden="true">→</div>
+            </button>
           </div>
         </div>
       </div>

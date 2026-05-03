@@ -37,7 +37,7 @@ export default function Settings() {
   return (
     <div className="page animate-in">
       <div className="page-header">
-        <button className="back-btn" onClick={() => navigate(-1)}>←</button>
+        <button className="back-btn" onClick={() => navigate(-1)} aria-label="Go back">←</button>
         <h1 className="text-title">Settings</h1>
       </div>
 
@@ -47,6 +47,7 @@ export default function Settings() {
           <div className="card" style={{ padding: 0 }}>
             {section.items.map((item, i) => (
               <button key={item.label} onClick={item.action}
+                aria-label={item.toggle ? `${item.label}: ${item.value ? 'on' : 'off'}` : `${item.label}: ${item.value}`}
                 style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%',
                   padding: '14px 16px', borderBottom: i < section.items.length - 1 ? '0.5px solid var(--color-border)' : 'none',
@@ -54,7 +55,7 @@ export default function Settings() {
                 }}>
                 <span className="text-card">{item.label}</span>
                 {item.toggle ? (
-                  <div className={`toggle${item.value ? ' active' : ''}`} onClick={e => { e.stopPropagation(); item.action(); }}>
+                  <div role="switch" aria-checked={!!item.value} aria-label={item.label} className={`toggle${item.value ? ' active' : ''}`} onClick={e => { e.stopPropagation(); item.action(); }}>
                     <div className="toggle-knob" />
                   </div>
                 ) : (

@@ -68,7 +68,7 @@ export default function QuizSession() {
   return (
     <div style={{ minHeight: '100vh', background: 'var(--color-bg)', padding: 16 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-        <button onClick={() => navigate('/learn')} style={{ fontSize: 20, color: 'var(--color-text-primary)' }}>✕</button>
+        <button onClick={() => navigate('/learn')} aria-label="Close quiz" style={{ fontSize: 20, color: 'var(--color-text-primary)' }}>✕</button>
         <span className="text-section">Election Quiz</span>
         <span className="text-card text-success">Score: {score}/{current}{showAnswer ? '+1' : ''}</span>
       </div>
@@ -100,6 +100,7 @@ export default function QuizSession() {
               }
               return (
                 <button key={idx} className="card" onClick={() => handleAnswer(idx)}
+                  aria-label={`Option ${String.fromCharCode(65 + idx)}: ${opt}`}
                   style={{ textAlign: 'left', display: 'flex', alignItems: 'center', gap: 12, ...style }}>
                   <span className="text-caption" style={{ minWidth: 24 }}>{String.fromCharCode(65 + idx)}.</span>
                   <span className="text-card">{opt}</span>

@@ -94,7 +94,7 @@ export default function ProfileSetup() {
       <p className="text-body" style={{ marginBottom: 20 }}>Help us personalise your voting journey</p>
 
       {errors.length > 0 && (
-        <div style={{ background: 'var(--red-50)', border: '1px solid var(--red-500)', borderRadius: 8, padding: 12, marginBottom: 16 }}>
+        <div role="alert" style={{ background: 'var(--red-50)', border: '1px solid var(--red-500)', borderRadius: 8, padding: 12, marginBottom: 16 }}>
           {errors.map((err, i) => (
             <div key={i} className="text-body" style={{ color: 'var(--red-500)', fontSize: 12 }}>⚠️ {err}</div>
           ))}
@@ -171,11 +171,13 @@ export default function ProfileSetup() {
 
         <div>
           <label className="input-label">Voter Type</label>
-          <div style={{ display: 'flex', gap: 8 }}>
+          <div style={{ display: 'flex', gap: 8 }} role="radiogroup" aria-label="Voter type">
             {(['general', 'nri', 'service'] as const).map(t => (
               <button key={t}
                 className={`btn btn-sm ${form.voterType === t ? 'btn-accent-light' : 'btn-secondary'}`}
                 onClick={() => setForm({ ...form, voterType: t })}
+                role="radio" aria-checked={form.voterType === t}
+                aria-label={`Voter type: ${t === 'nri' ? 'NRI' : t}`}
                 style={{ flex: 1, textTransform: 'capitalize' }}>
                 {t === 'nri' ? 'NRI' : t}
               </button>
