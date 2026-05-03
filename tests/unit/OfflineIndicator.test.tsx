@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import OfflineIndicator from '../../src/components/OfflineIndicator';
 
 describe('OfflineIndicator', () => {
@@ -29,10 +29,14 @@ describe('OfflineIndicator', () => {
     const { container } = render(<OfflineIndicator />);
     expect(container.innerHTML).toBe('');
 
-    window.dispatchEvent(new Event('offline'));
+    act(() => {
+      window.dispatchEvent(new Event('offline'));
+    });
     expect(screen.getByRole('alert')).toBeInTheDocument();
 
-    window.dispatchEvent(new Event('online'));
+    act(() => {
+      window.dispatchEvent(new Event('online'));
+    });
     expect(container.querySelector('[role="alert"]')).toBeNull();
 
     Object.defineProperty(navigator, 'onLine', { value: originalOnLine, configurable: true });

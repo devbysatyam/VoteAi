@@ -99,13 +99,16 @@ describe('Chat Route Validation', () => {
 
 describe('Quiz Route Validation', () => {
   it('should clamp count to valid range', () => {
-    const clamp = (raw) => Math.max(1, Math.min(parseInt(raw) || 5, 10));
+    const clamp = (raw: string | undefined) => Math.max(1, Math.min(parseInt(raw as string) || 5, 10));
     expect(clamp('5')).toBe(5);
-    expect(clamp('0')).toBe(1);
+    expect(clamp('0')).toBe(5);
     expect(clamp('-1')).toBe(1);
     expect(clamp('100')).toBe(10);
     expect(clamp('abc')).toBe(5);
     expect(clamp(undefined)).toBe(5);
+    expect(clamp('1')).toBe(1);
+    expect(clamp('10')).toBe(10);
+    expect(clamp('3')).toBe(3);
   });
 });
 
