@@ -2,6 +2,7 @@
  * Quiz route — generates election quiz questions via Gemini AI.
  */
 import { Router } from 'express';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export const quizRouter = Router();
 
@@ -21,7 +22,8 @@ const DEFAULT_QUESTIONS = [
 quizRouter.get('/quiz', async (req, res, next) => {
   try {
     const apiKey = process.env.GEMINI_API_KEY;
-    const count = Math.min(parseInt(req.query.count) || 5, 10);
+    const rawCount = parseInt(req.query.count) || 5;
+    const count = Math.max(1, Math.min(rawCount, 10));
 
     if (apiKey) {
       try {
@@ -55,22 +57,15 @@ Rules:
 - Explanations should cite relevant laws or articles when possible
 - Keep language simple for first-time voters`;
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      generationConfig: { temperature: 0.8, maxOutputTokens: 2000 },
-    }),
+  const genAI = new GoogleGenerativeAI(apiKey);
+  const model = genAI.getGenerativeModel({
+    model: 'gemini-flash-latest',
+    generationConfig: { temperature: 0.8, maxOutputTokens: 2000 },
   });
 
-  if (!response.ok) throw new Error(`Gemini returned ${response.status}`);
+  const result = await model.generateContent(prompt);
+  const text = result.response.text();
 
-  const data = await response.json();
-  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-
-  /* Parse JSON from response */
   const jsonMatch = text.match(/\[[\s\S]*\]/);
   if (!jsonMatch) throw new Error('No JSON found in response');
 

@@ -22,9 +22,10 @@ export async function signInWithGoogle(): Promise<boolean> {
     const user = result.user;
     await syncUserToFirestore(user);
     return true;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Google sign-in failed:', error);
-    throw new Error(error.message || 'Google sign-in failed');
+    const message = error instanceof Error ? error.message : 'Google sign-in failed';
+    throw new Error(message);
   }
 }
 

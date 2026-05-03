@@ -7,6 +7,14 @@ import { initAnalytics, isFirebaseConfigured } from './services/firebase';
 import AppLayout from './components/layout/AppLayout';
 import OnboardingLayout from './components/layout/OnboardingLayout';
 import AuthGuard from './components/layout/AuthGuard';
+import OfflineIndicator from './components/OfflineIndicator';
+
+const LANG_MAP: Record<string, string> = {
+  en: 'en', hi: 'hi', ta: 'ta', te: 'te', bn: 'bn', mr: 'mr',
+  gu: 'gu', kn: 'kn', ml: 'ml', or: 'or', pa: 'pa', as: 'as',
+  ur: 'ur', mai: 'mai', sa: 'sa', mni: 'mni', kok: 'kok',
+  ne: 'ne', doi: 'doi', brx: 'brx', ks: 'ks', sat: 'sat',
+};
 
 /* Lazy-loaded pages */
 const WelcomeSplash = lazy(() => import('./pages/onboarding/WelcomeSplash'));
@@ -29,23 +37,28 @@ const VotingChecklist = lazy(() => import('./pages/checklist/VotingChecklist'));
 const BadgesProfile = lazy(() => import('./pages/profile/BadgesProfile'));
 const ScenarioSim = lazy(() => import('./pages/scenario/ScenarioSim'));
 const Settings = lazy(() => import('./pages/settings/Settings'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
-/** Loading fallback */
 function PageLoader() {
   return (
-    <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 12 }}>
+    <div role="status" aria-label="Loading page" style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 12 }}>
       <div className="skeleton" style={{ height: 32, width: '60%' }} />
       <div className="skeleton" style={{ height: 16, width: '80%' }} />
       <div className="skeleton" style={{ height: 120, width: '100%', borderRadius: 8 }} />
       <div className="skeleton" style={{ height: 120, width: '100%', borderRadius: 8 }} />
+      <span className="sr-only">Loading...</span>
     </div>
   );
 }
 
 export default function App() {
   const theme = useSettingsStore((s) => s.theme);
+  const language = useSettingsStore((s) => s.language);
 
-  /* Initialize Firebase services on mount */
+  useEffect(() => {
+    document.documentElement.lang = LANG_MAP[language] || 'en';
+  }, [language]);
+
   useEffect(() => {
     if (isFirebaseConfigured) {
       const unsubAuth = initAuthListener();
@@ -60,6 +73,10 @@ export default function App() {
 
   return (
     <div data-theme={theme}>
+      <OfflineIndicator />
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
       <BrowserRouter>
         <Suspense fallback={<PageLoader />}>
           <Routes>
@@ -95,9 +112,9 @@ export default function App() {
               <Route path="/scenarios" element={<ScenarioSim />} />
             </Route>
 
-            {/* Default */}
+            {/* Default & 404 */}
             <Route path="/" element={<Navigate to="/welcome" replace />} />
-            <Route path="*" element={<Navigate to="/welcome" replace />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </BrowserRouter>

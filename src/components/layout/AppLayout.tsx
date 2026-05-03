@@ -14,7 +14,9 @@ export default function AppLayout() {
 
   return (
     <>
-      <Outlet />
+      <main id="main-content" role="main">
+        <Outlet />
+      </main>
       {/* Global AI Chat FAB */}
       <button
         onClick={() => navigate('/chat')}

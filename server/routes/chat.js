@@ -32,7 +32,15 @@ chatRouter.post('/chat', async (req, res, next) => {
       return res.status(400).json({ error: 'Message is required' });
     }
 
-    const sanitized = message.trim().slice(0, 2000);
+    if (message.length > 2000) {
+      return res.status(400).json({ error: 'Message exceeds maximum length of 2000 characters' });
+    }
+
+    const sanitized = message.replace(/<[^>]*>/g, '').trim().slice(0, 2000);
+    if (!sanitized) {
+      return res.status(400).json({ error: 'Message cannot be empty after sanitization' });
+    }
+
     const cacheKey = sanitized.toLowerCase().slice(0, 100);
 
     /* Tier 1: Cache */

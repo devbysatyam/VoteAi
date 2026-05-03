@@ -55,22 +55,22 @@ export default function AIChat() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--color-bg)' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--color-bg)' }} role="region" aria-label="AI Chat">
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', borderBottom: '0.5px solid var(--color-border)', background: 'var(--color-card)' }}>
+      <header style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', borderBottom: '0.5px solid var(--color-border)', background: 'var(--color-card)' }}>
         <button onClick={() => navigate(-1)} className="back-btn" aria-label="Go back">←</button>
         <div style={{ flex: 1 }}>
-          <div className="text-card">Election Assistant</div>
+          <h1 className="text-card" style={{ margin: 0 }}>Election Assistant</h1>
           <div className="text-caption" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            <span style={{ width: 6, height: 6, borderRadius: 3, background: '#4CAF50', display: 'inline-block' }} />
+            <span style={{ width: 6, height: 6, borderRadius: 3, background: '#4CAF50', display: 'inline-block' }} aria-hidden="true" />
             Powered by Gemini AI
           </div>
         </div>
         <button className="btn btn-ghost btn-sm" aria-label="Text to speech">🔊</button>
-      </div>
+      </header>
 
       {/* Messages */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: 16, display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div role="log" aria-live="polite" aria-label="Chat messages" style={{ flex: 1, overflowY: 'auto', padding: 16, display: 'flex', flexDirection: 'column', gap: 12 }}>
         {messages.map((msg, i) => (
           <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: msg.role === 'ai' ? 'flex-start' : 'flex-end' }}>
             <div className={`chat-bubble ${msg.role === 'ai' ? 'chat-ai' : 'chat-user'}`}>
@@ -83,10 +83,10 @@ export default function AIChat() {
         ))}
 
         {typing && (
-          <div className="chat-bubble chat-ai" style={{ display: 'flex', gap: 4 }}>
-            <span className="animate-pulse">●</span>
-            <span className="animate-pulse" style={{ animationDelay: '0.2s' }}>●</span>
-            <span className="animate-pulse" style={{ animationDelay: '0.4s' }}>●</span>
+          <div className="chat-bubble chat-ai" role="status" aria-label="Assistant is typing" style={{ display: 'flex', gap: 4 }}>
+            <span className="animate-pulse" aria-hidden="true">●</span>
+            <span className="animate-pulse" aria-hidden="true" style={{ animationDelay: '0.2s' }}>●</span>
+            <span className="animate-pulse" aria-hidden="true" style={{ animationDelay: '0.4s' }}>●</span>
           </div>
         )}
 
