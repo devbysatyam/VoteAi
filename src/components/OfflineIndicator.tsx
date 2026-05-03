@@ -1,3 +1,8 @@
+/**
+ * OfflineIndicator — displays a fixed banner when the user loses network connectivity.
+ * Uses browser online/offline events for real-time detection.
+ * Includes aria-live="assertive" for screen reader announcements.
+ */
 import { useState, useEffect } from 'react';
 
 export default function OfflineIndicator() {

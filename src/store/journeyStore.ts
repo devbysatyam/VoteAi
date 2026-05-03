@@ -1,3 +1,8 @@
+/**
+ * Journey Store — tracks voter readiness progress, XP, badges, and quiz scores.
+ * Persisted to localStorage and synced to Firestore for authenticated users.
+ * Readiness is calculated as percentage of 7 total journey steps completed.
+ */
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 

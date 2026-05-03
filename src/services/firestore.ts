@@ -1,6 +1,7 @@
 /**
- * Firestore data service — CRUD operations for all collections.
- * Data is encrypted at rest by Google Cloud (AES-256).
+ * Firestore Data Service — CRUD operations for users, journey, quiz scores, chat history.
+ * All data is encrypted at rest by Google Cloud (AES-256).
+ * Uses merge writes to prevent data loss on partial updates.
  */
 import { doc, setDoc, getDoc, updateDoc, collection, query, where, orderBy, limit, getDocs, serverTimestamp, increment } from 'firebase/firestore';
 import { db } from './firebase';

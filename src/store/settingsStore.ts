@@ -1,3 +1,7 @@
+/**
+ * Settings Store — manages user preferences (theme, language, onboarding status).
+ * Persisted to localStorage via Zustand middleware.
+ */
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 

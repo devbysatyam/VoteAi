@@ -1,5 +1,7 @@
 /**
- * Quiz route — generates election quiz questions via Gemini AI.
+ * Quiz Route — generates election quiz questions via Gemini AI.
+ * Falls back to curated default questions when AI is unavailable.
+ * Supports configurable question count (1-10, default 5).
  */
 import { Router } from 'express';
 import { GoogleGenerativeAI } from '@google/generative-ai';

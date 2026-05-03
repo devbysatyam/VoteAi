@@ -1,3 +1,8 @@
+/**
+ * ErrorBoundary — catches unhandled React rendering errors.
+ * Displays a user-friendly fallback UI with reload option.
+ * Logs error details to console for debugging.
+ */
 import { Component, type ReactNode, type ErrorInfo } from 'react';
 
 interface Props {

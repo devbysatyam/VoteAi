@@ -1,3 +1,8 @@
+/**
+ * AppLayout — main application shell with bottom navigation and AI chat FAB.
+ * Wraps protected routes with <main> landmark and persistent navigation bar.
+ * Supports aria-current for active tab indication.
+ */
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 const tabs = [

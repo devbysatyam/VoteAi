@@ -1,6 +1,9 @@
 /**
- * Gemini AI service — handles chat, quiz generation, and candidate comparison.
- * Uses 4-tier fallback: cache → Gemini Flash → Gemini Pro → hardcoded responses.
+ * Gemini AI Service — handles chat and quiz generation with 4-tier resilience.
+ * Tier 1: In-memory cache (1hr TTL)
+ * Tier 2: Backend API (/api/chat)
+ * Tier 3: Client-side Gemini SDK (direct)
+ * Tier 4: Hardcoded fallback responses (never fails)
  */
 
 import { GoogleGenerativeAI } from '@google/generative-ai';

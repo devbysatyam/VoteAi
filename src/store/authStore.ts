@@ -1,6 +1,11 @@
+/**
+ * Auth Store — manages authentication state using Zustand with localStorage persistence.
+ * Supports Google OAuth and guest login modes.
+ */
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+/** User profile shape stored in auth state and synced to Firestore */
 interface UserProfile {
   name: string;
   state: string;

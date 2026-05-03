@@ -1,5 +1,8 @@
 /**
- * Rate limiter middleware — 100 req/15min general, 20/min for AI chat.
+ * Rate Limiter Middleware — IP-based request throttling.
+ * General API: 100 requests per 15 minutes.
+ * AI endpoints (/chat, /quiz): 20 requests per minute (stricter to prevent abuse).
+ * Uses in-memory Map for tracking; resets automatically per window.
  */
 
 const requestCounts = new Map();

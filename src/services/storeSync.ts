@@ -1,5 +1,7 @@
 /**
- * Synchronizes local Zustand stores (authStore, journeyStore) with Firebase Firestore.
+ * Store Sync Service — bidirectional synchronization between Zustand stores and Firestore.
+ * Only syncs for authenticated (non-guest) users with valid Firebase connection.
+ * Uses JSON comparison to avoid unnecessary writes on unchanged state.
  */
 import { useAuthStore } from '../store/authStore';
 import { useJourneyStore } from '../store/journeyStore';

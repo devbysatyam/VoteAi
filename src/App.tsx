@@ -1,3 +1,8 @@
+/**
+ * App — Root application component.
+ * Handles routing, theme management, language (lang attribute), Firebase initialization,
+ * and provides skip-navigation + offline indicator for accessibility.
+ */
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { lazy, Suspense, useEffect } from 'react';
 import { useSettingsStore } from './store/settingsStore';
@@ -8,6 +13,8 @@ import AppLayout from './components/layout/AppLayout';
 import OnboardingLayout from './components/layout/OnboardingLayout';
 import AuthGuard from './components/layout/AuthGuard';
 import OfflineIndicator from './components/OfflineIndicator';
+
+/** Maps internal language codes to BCP-47 lang attributes */
 
 const LANG_MAP: Record<string, string> = {
   en: 'en', hi: 'hi', ta: 'ta', te: 'te', bn: 'bn', mr: 'mr',

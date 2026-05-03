@@ -1,10 +1,11 @@
 /**
- * Input validation utilities.
- * Sanitizes all user inputs before storing in Firestore.
+ * Input Validation & Sanitization Utilities.
+ * All user inputs are sanitized with DOMPurify before storage or display.
+ * Prevents XSS, enforces length limits, and validates domain-specific types.
  */
 import DOMPurify from 'dompurify';
 
-/** Max field lengths to prevent abuse */
+/** Maximum field lengths to prevent abuse and storage overflow */
 const MAX_LENGTHS: Record<string, number> = {
   name: 100,
   constituency: 100,

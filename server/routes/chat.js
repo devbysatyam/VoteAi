@@ -1,6 +1,10 @@
 /**
- * Chat route — Gemini AI powered election assistant.
- * 4-tier fallback: cache → Gemini Flash → Gemini Pro → hardcoded.
+ * Chat Route — Gemini AI powered election assistant.
+ * Implements 4-tier fallback for maximum resilience:
+ * Tier 1: In-memory cache (1hr TTL)
+ * Tier 2: Gemini SDK (server-side)
+ * Tier 4: Hardcoded domain-specific responses
+ * Includes server-side HTML sanitization for all inputs.
  */
 import { Router } from 'express';
 import { GoogleGenerativeAI } from '@google/generative-ai';

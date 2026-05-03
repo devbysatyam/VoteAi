@@ -1,6 +1,7 @@
 /**
  * VoteAI Backend Server
- * Express.js with Gemini AI, rate limiting, security middleware.
+ * Express.js API with Gemini AI integration, security middleware (Helmet, CORS, CSP),
+ * rate limiting, and static file serving for the React SPA.
  */
 import express from 'express';
 import cors from 'cors';

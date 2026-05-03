@@ -1,5 +1,6 @@
 /**
- * Global error handler — catches all unhandled errors.
+ * Global Error Handler — catches all unhandled Express errors.
+ * Hides stack traces in production to prevent information leakage.
  */
 export function errorHandler(err, _req, res, _next) {
   console.error('Server error:', err.message);
